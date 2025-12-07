@@ -16,6 +16,7 @@ import {
   TrendingUp,
   ExternalLink
 } from 'lucide-react';
+import CounterUp from '@/components/CounterUp';
 
 // Structure de données pour les publications
 interface Publication {
@@ -102,12 +103,39 @@ const documentTypes = [
   { value: 'Présentation', label: 'Présentations', icon: Presentation },
 ];
 
-// Statistiques
 const stats = [
-  { label: 'Publications totales', value: '24', icon: FileText, color: 'from-blue-500 to-blue-600' },
-  { label: 'Téléchargements', value: '8,942', icon: Download, color: 'from-green-500 to-green-600' },
-  { label: 'Vues totales', value: '15,234', icon: Eye, color: 'from-amber-500 to-amber-600' },
-  { label: 'Mises à jour ce mois', value: '6', icon: TrendingUp, color: 'from-red-500 to-red-600' },
+  { 
+    label: 'Publications totales', 
+    value: 24, // Remplacé par un nombre
+    icon: FileText, 
+    color: 'from-blue-500 to-blue-600',
+    suffix: '', // Pas de suffixe nécessaire ici
+    decimalPlaces: 0,
+  },
+  { 
+    label: 'Téléchargements', 
+    value: 8942, // Remplacé par un nombre
+    icon: Download, 
+    color: 'from-green-500 to-green-600',
+    suffix: '', 
+    decimalPlaces: 0,
+  },
+  { 
+    label: 'Vues totales', 
+    value: 15234, // Remplacé par un nombre
+    icon: Eye, 
+    color: 'from-amber-500 to-amber-600',
+    suffix: '', 
+    decimalPlaces: 0,
+  },
+  { 
+    label: 'Mises à jour ce mois', 
+    value: 6, // Remplacé par un nombre
+    icon: TrendingUp, 
+    color: 'from-red-500 to-red-600',
+    suffix: '', 
+    decimalPlaces: 0,
+  },
 ];
 
 const PublicationsPage: React.FC = () => {
@@ -180,7 +208,15 @@ const PublicationsPage: React.FC = () => {
                     <Icon className="w-6 h-6 text-white" />
                   </div>
                 </div>
-                <p className="text-3xl font-black text-gray-900 mb-1">{stat.value}</p>
+                <p className="text-3xl font-black text-gray-900 mb-1"> <CounterUp
+                    endValue={stat.value as number} 
+                    duration={2500} 
+                    suffix={stat.suffix} 
+                    decimalPlaces={stat.decimalPlaces} 
+                  /></p>
+                
+                
+
                 <p className="text-sm text-gray-600 font-semibold">{stat.label}</p>
               </div>
             );

@@ -4,6 +4,8 @@ import React, { useEffect, useState } from 'react';
 import Link from 'next/link';
 import Image from 'next/image';
 import { ArrowRight, TrendingUp, Users, Database, Globe, Award, Calendar, ChevronLeft, ChevronRight } from 'lucide-react';
+import CounterUp from '@/components/CounterUp';
+
 
 const HomePage: React.FC = () => {
   const [currentSlide, setCurrentSlide] = useState(0);
@@ -48,12 +50,21 @@ const HomePage: React.FC = () => {
   const nextSlide = () => setCurrentSlide((prev) => (prev + 1) % heroSlides.length);
   const prevSlide = () => setCurrentSlide((prev) => (prev - 1 + heroSlides.length) % heroSlides.length);
 
-  const kpis = [
-    { value: '7', label: 'Secteurs statistiques harmonisés', icon: Database, color: 'from-emerald-500 to-teal-600' },
-    { value: '150+', label: 'Indicateurs de développement', icon: TrendingUp, color: 'from-amber-500 to-orange-600' },
-    { value: '1000+', label: 'Professionnels formés', icon: Users, color: 'from-red-500 to-rose-600' },
-    { value: '12', label: 'Départements couverts', icon: Globe, color: 'from-green-600 to-emerald-700' }
-  ];
+
+
+ // ... (dans votre composant HomePage)
+const kpis = [
+  // IMPORTANT : 'value' doit être un nombre, le suffixe est séparé
+  { value: 6.3, label: 'Population totale (M de)', icon: Users, color: 'from-blue-500 to-blue-600', suffix: 'M', decimalPlaces: 1 },
+  { value: 36, label: 'Taux brut de natalité', icon: TrendingUp, color: 'from-green-500 to-emerald-600', suffix: '‰', decimalPlaces: 0 },
+  { value: 64, label: 'Espérance de vie', icon: Globe, color: 'from-purple-500 to-purple-600', suffix: ' ans', decimalPlaces: 0 },
+  { value: 4.8, label: 'Indice de fécondité', icon: Users, color: 'from-amber-500 to-orange-600', suffix: '', decimalPlaces: 1 },
+  { value: 33.2, label: 'Taux mortalité infantile', icon: TrendingUp, color: 'from-red-500 to-rose-600', suffix: '‰', decimalPlaces: 1 },
+  { value: 12, label: 'Départements couverts', icon: Database, color: 'from-teal-500 to-cyan-600', suffix: '', decimalPlaces: 0 },
+  { value: 45, label: 'Mortalité des moins de 5 ans', icon: TrendingUp, color: 'from-pink-500 to-rose-600', suffix: '‰', decimalPlaces: 0 },
+  { value: 19, label: 'Densité de population', icon: Globe, color: 'from-indigo-500 to-blue-600', suffix: ' hab/km²', decimalPlaces: 0 },
+];
+// ...
 
   const news = [
     {
@@ -222,7 +233,12 @@ const partners = [
                   <Icon className="w-8 h-8 text-white" />
                 </div>
                 <div className={`text-5xl font-black mb-3 bg-gradient-to-br ${kpi.color} bg-clip-text text-transparent`}>
-                  {kpi.value}
+                 <CounterUp
+                    endValue={kpi.value as number} // Utiliser la valeur numérique
+                    duration={2500} // Animation de 2.5 secondes
+                    suffix={kpi.suffix} // Ajouter l'unité (M, ‰, ans)
+                    decimalPlaces={kpi.decimalPlaces} // Gérer les décimales
+                  />
                 </div>
                 <p className="text-gray-700 font-semibold leading-snug">{kpi.label}</p>
                 <div className={`absolute -bottom-8 -right-8 w-24 h-24 bg-gradient-to-br ${kpi.color} rounded-full opacity-5 group-hover:opacity-20 transition-opacity`} />

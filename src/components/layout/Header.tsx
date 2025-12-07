@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { useState, useEffect } from 'react';
 import { Menu, X, ChevronDown, Database, FileText, Info, Newspaper, Home } from 'lucide-react';
+import Image from 'next/image';
 
 // Liste des liens de navigation avec icônes
 const navLinks = [
@@ -46,13 +47,14 @@ const Header = () => {
           {/* Logo Section */}
           <Link href="/" className="flex items-center gap-3 group">
             <div className="relative">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform duration-300 shadow-lg">
-                <span className="text-2xl font-black text-white">H</span>
-              </div>
-              {/* Petit badge "Congo" */}
-              <div className="absolute -bottom-1 -right-1 w-5 h-5 bg-gradient-to-br from-amber-400 to-orange-500 rounded-full flex items-center justify-center border-2 border-white">
-                <span className="text-[8px] font-bold text-white">CG</span>
-              </div>
+               <Image
+      src="/logos/hiswaca-logo.png"  // ← CHEMIN VERS VOTRE LOGO
+      alt="HISWACA Congo"
+      width={48}
+      height={48}
+      className="w-12 h-12 rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-lg border-2 border-white/20 object-contain"
+    />
+              
             </div>
             
             <div className="hidden md:block">

@@ -3,6 +3,7 @@
 import Link from 'next/link';
 import { Facebook, Twitter, Linkedin, Mail, Phone, MapPin, ArrowUp, ExternalLink } from 'lucide-react';
 import { useState, useEffect } from 'react';
+import Image from 'next/image';
 
 // Liens de navigation rapides pour le pied de page
 const footerLinks = [
@@ -80,9 +81,16 @@ const Footer = () => {
           {/* Colonne 1 : Logo et Mission */}
           <div className="lg:col-span-2">
             <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
-              <div className="w-12 h-12 bg-gradient-to-br from-green-500 to-emerald-600 rounded-xl flex items-center justify-center group-hover:scale-110 transition-transform">
-                <span className="text-2xl font-black text-white">H</span>
-              </div>
+             <div className="relative  ">
+                            <Image
+                   src="/logos/hiswaca-logo.png"  // ← CHEMIN VERS VOTRE LOGO
+                   alt="HISWACA Congo"
+                   width={48}
+                   height={48}
+                   className="w-12 h-12  bg-white rounded-xl group-hover:scale-110 transition-transform duration-300 shadow-lg border-2 border-white/20 object-contain"
+                 />
+                           
+                         </div>
               <div>
                 <span className="block text-2xl font-black bg-gradient-to-r from-green-400 to-emerald-400 bg-clip-text text-transparent">
                   HISWACA
@@ -111,7 +119,7 @@ const Footer = () => {
               <div className="flex items-center gap-3 text-sm text-gray-300">
                 <Mail className="w-5 h-5 text-green-400 flex-shrink-0" />
                 <a href="mailto:contact@hiswaca-cngo.org" className="hover:text-green-400 transition-colors">
-                  contact@hiswaca-cngo.org
+                  contact@hiswaca-congo.org
                 </a>
               </div>
             </div>
@@ -159,7 +167,7 @@ const Footer = () => {
           ))}
         </div>
 
-      
+          
 
         {/* Bottom Bar */}
         <div className="border-t border-gray-700 pt-8 flex flex-col md:flex-row justify-between items-center gap-4">

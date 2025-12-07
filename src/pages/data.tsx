@@ -8,12 +8,15 @@ import {
   Filter, 
   MapPin, 
   Calendar,
+  Users,
   Database,
+  Globe,
   FileSpreadsheet,
   Eye,
   Share2,
   ChevronDown
 } from 'lucide-react';
+import CounterUp from '@/components/CounterUp';
 
 // Données fictives pour les filtres
 const sectors = [
@@ -43,11 +46,16 @@ const regions = [
 ];
 
 // Données fictives pour les KPIs
-const kpiData = [
-  { label: 'Indicateurs disponibles', value: '157', icon: Database, change: '+12', color: 'from-blue-500 to-blue-600' },
-  { label: 'Dernière mise à jour', value: 'Déc 2024', icon: Calendar, change: 'Récent', color: 'from-green-500 to-green-600' },
-  { label: 'Départements couverts', value: '12/12', icon: MapPin, change: '100%', color: 'from-amber-500 to-amber-600' },
-  { label: 'Taux de complétude', value: '94%', icon: TrendingUp, change: '+5%', color: 'from-red-500 to-red-600' },
+const kpis = [
+  // IMPORTANT : 'value' doit être un nombre, le suffixe est séparé
+  { value: 6.3, label: 'Population totale (M de)', icon: Users, color: 'from-blue-500 to-blue-600', suffix: 'M', decimalPlaces: 1 },
+  { value: 36, label: 'Taux brut de natalité', icon: TrendingUp, color: 'from-green-500 to-emerald-600', suffix: '‰', decimalPlaces: 0 },
+  { value: 64, label: 'Espérance de vie', icon: Globe, color: 'from-purple-500 to-purple-600', suffix: ' ans', decimalPlaces: 0 },
+  { value: 4.8, label: 'Indice de fécondité', icon: Users, color: 'from-amber-500 to-orange-600', suffix: '', decimalPlaces: 1 },
+  { value: 33.2, label: 'Taux mortalité infantile', icon: TrendingUp, color: 'from-red-500 to-rose-600', suffix: '‰', decimalPlaces: 1 },
+  { value: 12, label: 'Départements couverts', icon: Database, color: 'from-teal-500 to-cyan-600', suffix: '', decimalPlaces: 0 },
+  { value: 45, label: 'Mortalité des moins de 5 ans', icon: TrendingUp, color: 'from-pink-500 to-rose-600', suffix: '‰', decimalPlaces: 0 },
+  { value: 19, label: 'Densité de population', icon: Globe, color: 'from-indigo-500 to-blue-600', suffix: ' hab/km²', decimalPlaces: 0 },
 ];
 
 // Données fictives pour les datasets populaires
@@ -102,25 +110,29 @@ const DataPage: React.FC = () => {
       </section>
 
       {/* KPIs Section */}
-      <section className="container mx-auto px-6 -mt-12 relative z-10 mb-12">
+      <section className="container mx-auto px-6 py-20">
+        <div className="text-center mb-16">
+          <div className="w-24 h-1.5 bg-gradient-to-r from-green-600 via-amber-500 to-red-600 mx-auto rounded-full" />
+        </div>
         <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-6">
-          {kpiData.map((kpi, idx) => {
+          {kpis.map((kpi, idx) => {
             const Icon = kpi.icon;
             return (
-              <div
-                key={idx}
-                className="bg-white rounded-2xl p-6 shadow-xl hover:shadow-2xl transition-all duration-300 hover:-translate-y-1 border border-gray-100"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className={`w-12 h-12 rounded-xl bg-gradient-to-br ${kpi.color} flex items-center justify-center`}>
-                    <Icon className="w-6 h-6 text-white" />
-                  </div>
-                  <span className="px-2 py-1 bg-green-100 text-green-700 text-xs font-bold rounded-full">
-                    {kpi.change}
-                  </span>
+              <div key={idx} className="group relative bg-white rounded-2xl p-8 shadow-xl hover:shadow-2xl transition-all duration-500 hover:-translate-y-2 border border-gray-100 overflow-hidden">
+                <div className={`absolute inset-0 bg-gradient-to-br ${kpi.color} opacity-0 group-hover:opacity-10 transition-opacity duration-500`} />
+                <div className={`w-16 h-16 rounded-2xl bg-gradient-to-br ${kpi.color} flex items-center justify-center mb-6 group-hover:scale-110 group-hover:rotate-6 transition-transform duration-500`}>
+                  <Icon className="w-8 h-8 text-white" />
                 </div>
-                <p className="text-3xl font-black text-gray-900 mb-1">{kpi.value}</p>
-                <p className="text-sm text-gray-600 font-semibold">{kpi.label}</p>
+                <div className={`text-5xl font-black mb-3 bg-gradient-to-br ${kpi.color} bg-clip-text text-transparent`}>
+                 <CounterUp
+                    endValue={kpi.value as number} // Utiliser la valeur numérique
+                    duration={2500} // Animation de 2.5 secondes
+                    suffix={kpi.suffix} // Ajouter l'unité (M, ‰, ans)
+                    decimalPlaces={kpi.decimalPlaces} // Gérer les décimales
+                  />
+                </div>
+                <p className="text-gray-700 font-semibold leading-snug">{kpi.label}</p>
+                <div className={`absolute -bottom-8 -right-8 w-24 h-24 bg-gradient-to-br ${kpi.color} rounded-full opacity-5 group-hover:opacity-20 transition-opacity`} />
               </div>
             );
           })}
