@@ -15,6 +15,7 @@ import {
   Share2,
   Filter
 } from 'lucide-react';
+import Image from 'next/image';
 
 // Structure de données pour les actualités
 interface NewsItem {
@@ -38,7 +39,7 @@ const initialNews: NewsItem[] = [
     summary: 'Annonce des équipes retenues pour l événement de 48h visant à concevoir le portail et la charte graphique du projet.', 
     date: '05 Déc. 2025', 
     category: 'Événement', 
-    image: '/images/news/hackathon.jpg',
+    image: '/images/news/news-1.jpg',
     link: '#news-detail-1',
     readTime: '3 min',
     views: 2543,
@@ -50,7 +51,7 @@ const initialNews: NewsItem[] = [
     summary: 'Clôture de l atelier de travail sur les Plans de Travail Annuels Budgétisés pour l année 2026.', 
     date: '28 Nov. 2025', 
     category: 'Atelier', 
-    image: '/images/news/ptab.jpg',
+    image: '/images/news/news-2.jpg',
     link: '#news-detail-2',
     readTime: '5 min',
     views: 1876,
@@ -62,7 +63,7 @@ const initialNews: NewsItem[] = [
     summary: 'Communiqué de l INS Congo annonçant l alignement des méthodes de calcul de l IPC grâce à l appui d HISWACA.', 
     date: '10 Nov. 2025', 
     category: 'Résultat', 
-    image: '/images/news/ipc.jpg',
+    image: '/images/news/news-3.jpg',
     link: '#news-detail-3',
     readTime: '4 min',
     views: 3421,
@@ -74,7 +75,7 @@ const initialNews: NewsItem[] = [
     summary: 'Programme intensif de renforcement des capacités des collecteurs de données sur le terrain.', 
     date: '15 Oct. 2025', 
     category: 'Atelier', 
-    image: '/images/news/formation.jpg',
+    image: '/images/news/news-4.jpg',
     link: '#news-detail-4',
     readTime: '4 min',
     views: 1234
@@ -85,7 +86,7 @@ const initialNews: NewsItem[] = [
     summary: 'Une nouvelle ère pour l accessibilité des données statistiques au Congo.', 
     date: '01 Oct. 2025', 
     category: 'Événement', 
-    image: '/images/news/opendata.jpg',
+    image: '/images/news/news-5.jpg',
     link: '#news-detail-5',
     readTime: '6 min',
     views: 4567
@@ -96,7 +97,7 @@ const initialNews: NewsItem[] = [
     summary: 'Extension du financement du projet HISWACA pour la période 2025-2027.', 
     date: '20 Sep. 2025', 
     category: 'Communiqué', 
-    image: '/images/news/partnership.jpg',
+    image: '/images/news/news-6.jpg',
     link: '#news-detail-6',
     readTime: '3 min',
     views: 2198
@@ -140,7 +141,7 @@ const NewsPage: React.FC = () => {
       <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-16 overflow-hidden">
         <div className="absolute inset-0 opacity-10">
           <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='80' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
+            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
           }} />
         </div>
 
@@ -216,15 +217,26 @@ const NewsPage: React.FC = () => {
           <div className="bg-white rounded-3xl shadow-2xl overflow-hidden border border-gray-100">
             <div className="grid grid-cols-1 lg:grid-cols-2 gap-0">
               {/* Image */}
-              <div className="h-64 lg:h-auto bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 flex items-center justify-center relative">
-                <div className="absolute top-4 left-4">
-                  <span className="px-3 py-1 bg-amber-400 text-amber-900 text-xs font-bold rounded-full flex items-center gap-1">
-                    <Sparkles className="w-3 h-3" />
-                    À la une
-                  </span>
-                </div>
-                <Newspaper className="w-32 h-32 text-white/20" />
-              </div>
+           <div className="relative h-64 lg:h-96 overflow-hidden group">
+  <Image
+    src={"/images/news/news-1.jpg"}  // Ajoutez votre image ici
+    alt={""}
+    fill
+    className="object-cover group-hover:scale-110 transition-transform duration-700"
+  />
+  
+  {/* Overlay gradient pour badge lisible */}
+  <div className="absolute inset-0 bg-gradient-to-t from-black/50 via-black/20 to-transparent" />
+  
+  {/* Badge "À la une" en haut-gauche */}
+  <div className="absolute top-6 left-6 z-10">
+    <span className="px-4 py-2 bg-gradient-to-r from-amber-400 via-orange-400 to-yellow-400 text-amber-900 text-sm font-bold rounded-full flex items-center gap-2 shadow-lg backdrop-blur-sm border border-white/30">
+      <Sparkles className="w-4 h-4" />
+     À la une
+    </span>
+  </div>
+</div>
+
 
               {/* Content */}
               <div className="p-8 md:p-12 flex flex-col justify-center">
@@ -277,14 +289,25 @@ const NewsPage: React.FC = () => {
               <article className="bg-white rounded-2xl shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100 overflow-hidden h-full flex flex-col">
                 
                 {/* Image */}
-                <div className="relative h-48 bg-gradient-to-br from-green-500 via-emerald-500 to-teal-500 flex items-center justify-center overflow-hidden">
-                  <Newspaper className="w-20 h-20 text-white/20" />
-                  <div className="absolute top-3 right-3">
-                    <button className="p-2 bg-white/20 backdrop-blur-md rounded-lg hover:bg-white/30 transition-colors">
-                      <Share2 className="w-4 h-4 text-white" />
-                    </button>
-                  </div>
-                </div>
+              <div className="relative h-48 overflow-hidden group">
+            <Image
+              src={item.image}
+              alt={item.title}
+              fill
+              className="object-cover group-hover:scale-110 transition-transform duration-500"
+            />
+            
+ 
+            <div className="absolute inset-0 bg-gradient-to-t from-black/40 via-transparent to-transparent" />
+            
+          {/* Bouton Share flottant */}
+          <div className="absolute top-4 right-4 z-10 opacity-0 group-hover:opacity-100 transition-all duration-300">
+            <button className="p-2.5 bg-white/90 backdrop-blur-md rounded-xl hover:bg-white hover:shadow-2xl transition-all shadow-lg border border-white/50">
+              <Share2 className="w-5 h-5 text-gray-800" />
+            </button>
+  </div>
+</div>
+
 
                 {/* Content */}
                 <div className="p-6 flex flex-col flex-grow">

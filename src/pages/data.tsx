@@ -16,7 +16,10 @@ import {
   Share2,
   ChevronDown
 } from 'lucide-react';
+
 import CounterUp from '@/components/CounterUp';
+import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar, Legend, ResponsiveContainer } from 'recharts';
+
 
 // Données fictives pour les filtres
 const sectors = [
@@ -26,6 +29,36 @@ const sectors = [
   { id: 'agriculture', name: 'Agriculture', color: 'bg-green-600' },
   { id: 'economy', name: 'Économie', color: 'bg-amber-600' },
   { id: 'infrastructure', name: 'Infrastructure', color: 'bg-purple-600' },
+];
+
+const dataTrend = [
+  { year: '2015', value: 4.75 },   // 4.75M
+  { year: '2016', value: 4.890 },   // 4.89M  
+  { year: '2017', value: 5.037 },   // 5.04M
+  { year: '2018', value: 5.187 },   // 5.19M
+  { year: '2019', value: 5.342 },   // 5.34M
+  { year: '2020', value: 5.502 },   // 5.50M
+  { year: '2021', value: 5.667 },   // 5.67M
+  { year: '2022', value: 5.836 },   // 5.84M
+  { year: '2023', value: 6.009 },   // 6.01M [web:212]
+  { year: '2024', value: 6.185 },   // 6.19M
+  { year: '2025', value: 6.129 },   // 6.13M [web:208]
+];
+
+const dataComparison = [
+  { department: 'Bouenza', value: 0.700 },
+  { department: 'Cuvette', value:0.450 },
+  { department: 'Cuvette-Ouest', value:0.120 },
+  { department: 'Kouilou', value: 0.230 },
+  { department: 'Lékoumou', value: 0.140 },
+  { department: 'Louenza', value: 0.810 },
+  { department: 'Plateaux', value: 0.450 },
+  { department: 'Pointe-Noire', value:0.800 },
+  { department: 'Sangha', value: 0.110 },
+  { department: 'Pool', value: 0.700 },
+  { department: 'Niari', value:0.600 },
+  { department: 'Likouala', value: 0.280 },
+  { department: 'Brazzaville', value: 1.300 },
 ];
 
 const years = [
@@ -281,57 +314,64 @@ const DataPage: React.FC = () => {
       <section className="container mx-auto px-6 mb-12">
         <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
           
-          {/* Tendance Chart */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
-                  <TrendingUp className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-xl font-black text-gray-900">
-                  Évolution Temporelle
-                </h3>
+        {/* Tendance Chart */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-blue-500 to-blue-600 rounded-lg flex items-center justify-center">
+                <TrendingUp className="w-5 h-5 text-white" />
               </div>
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <Download className="w-5 h-5 text-gray-600" />
-              </button>
+              <h3 className="text-xl font-black text-gray-900">
+                Évolution Annuelle de la population (en millions)
+              </h3>
             </div>
-
-            <div className="aspect-video bg-gradient-to-br from-blue-50 to-indigo-50 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
-              <div className="text-center">
-                <TrendingUp className="w-12 h-12 text-blue-600 mx-auto mb-3" />
-                <p className="text-gray-700 font-bold mb-1">Graphique de Tendance</p>
-                <p className="text-gray-500 text-sm">2020 - {selectedYear}</p>
-                <p className="text-xs text-gray-400 mt-2">Chart.js / Recharts</p>
-              </div>
-            </div>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Download className="w-5 h-5 text-gray-600" />
+            </button>
           </div>
 
-          {/* Comparaison Chart */}
-          <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
-            <div className="flex items-center justify-between mb-6">
-              <div className="flex items-center gap-3">
-                <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
-                  <BarChart3 className="w-5 h-5 text-white" />
-                </div>
-                <h3 className="text-xl font-black text-gray-900">
-                  Comparaison Régionale
-                </h3>
-              </div>
-              <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
-                <Download className="w-5 h-5 text-gray-600" />
-              </button>
-            </div>
-
-            <div className="aspect-video bg-gradient-to-br from-amber-50 to-orange-50 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
-              <div className="text-center">
-                <BarChart3 className="w-12 h-12 text-amber-600 mx-auto mb-3" />
-                <p className="text-gray-700 font-bold mb-1">Graphique à Barres</p>
-                <p className="text-gray-500 text-sm">12 Départements - {selectedYear}</p>
-                <p className="text-xs text-gray-400 mt-2">Chart.js / Recharts</p>
-              </div>
-            </div>
+          <div className="aspect-video rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
+            <ResponsiveContainer width="100%" height="100%">
+              <LineChart data={dataTrend} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="year" />
+                <YAxis />
+                <Tooltip />
+                <Line type="monotone" dataKey="value" stroke="#2563eb" strokeWidth={3} dot />
+              </LineChart>
+            </ResponsiveContainer>
           </div>
+        </div>
+
+        {/* Comparaison Chart */}
+        <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
+          <div className="flex items-center justify-between mb-6">
+            <div className="flex items-center gap-3">
+              <div className="w-10 h-10 bg-gradient-to-br from-amber-500 to-orange-600 rounded-lg flex items-center justify-center">
+                <BarChart3 className="w-5 h-5 text-white" />
+              </div>
+              <h3 className="text-xl font-black text-gray-900">
+                Comparaison Régionale
+              </h3>
+            </div>
+            <button className="p-2 hover:bg-gray-100 rounded-lg transition-colors">
+              <Download className="w-5 h-5 text-gray-600" />
+            </button>
+          </div>
+
+          <div className="aspect-video rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
+            <ResponsiveContainer width="100%" height="100%">
+              <BarChart data={dataComparison} margin={{ top: 20, right: 30, left: 0, bottom: 0 }}>
+                <CartesianGrid strokeDasharray="3 3" />
+                <XAxis dataKey="department" />
+                <YAxis />
+                <Tooltip />
+                <Legend />
+                <Bar dataKey="value" fill="#ea580c" barSize={40} />
+              </BarChart>
+            </ResponsiveContainer>
+          </div>
+        </div>
         </div>
       </section>
 

@@ -114,7 +114,7 @@ const partners = [
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
-      {/* Hero Section avec Carrousel SYNCHRONISÉ */}
+      {/* Hero Section */}
       <section className="relative h-screen overflow-hidden">
         {/* Carrousel d'images */}
         <div className="absolute inset-0">
