@@ -83,7 +83,7 @@ const Footer = () => {
             <Link href="/" className="inline-flex items-center gap-3 mb-6 group">
              <div className="relative  ">
                             <Image
-                   src="/logos/hiswaca-logo.png"  // ← CHEMIN VERS VOTRE LOGO
+                   src="/logos/hiswaca-congo.png"  // ← CHEMIN VERS VOTRE LOGO
                    alt="HISWACA Congo"
                    width={48}
                    height={48}
