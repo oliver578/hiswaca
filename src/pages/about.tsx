@@ -10,8 +10,9 @@ import {
   Award,
   CheckCircle,
   ExternalLink,
-  Sparkles
+  Sparkles,
 } from 'lucide-react';
+import Image from 'next/image';
 
 // Données fictives pour les partenaires
 interface Partner {
@@ -20,6 +21,7 @@ interface Partner {
   description: string;
   color: string;
   website?: string;
+  image:string;
 }
 
 const partnersData: Partner[] = [
@@ -28,28 +30,33 @@ const partnersData: Partner[] = [
     logo: '/logos/congo.png', 
     description: 'Le principal bénéficiaire et moteur de l harmonisation des statistiques.',
     color: 'bg-green-600',
-    website: '#'
+    website: '#',
+    image:"/images/about/about-congo.jpg"
   },
   { 
     name: 'Banque Mondiale', 
     logo: '/logos/worldbank.png', 
     description: 'Partenaire technique et financier essentiel au projet HISWACA.',
     color: 'bg-blue-600',
-    website: 'https://www.worldbank.org'
+    website: 'https://www.worldbank.org',
+    image:"/images/about/about-worldbank.jpg"
+
   },
   { 
     name: 'Union Européenne', 
     logo: '/logos/eu.png', 
     description: 'Soutien institutionnel à l amélioration des capacités statistiques nationales.',
     color: 'bg-indigo-600',
-    website: 'https://europa.eu'
+    website: 'https://europa.eu',
+    image:"/images/about/about-eu.jpg"
   },
   { 
     name: 'Institut National de la Statistique', 
     logo: '/logos/ins.png', 
     description: 'Agence d exécution nationale, garante de la production et de la diffusion des données.',
     color: 'bg-amber-600',
-    website: '#'
+    website: '#',
+    image:"/images/about/about-ins.jpg"
   },
 ];
 
@@ -95,67 +102,91 @@ const AboutPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       
-      {/* Hero Section Moderne */}
-      <section className="relative overflow-hidden">
-        {/* Background avec gradient animé */}
-        <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600">
-          <div className="absolute inset-0 opacity-20">
-            <div className="absolute top-20 -left-20 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse" />
-            <div className="absolute bottom-20 -right-20 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse" style={{ animationDelay: '1s' }} />
-          </div>
-        </div>
+    {/* Hero Section Moderne */}
+<section className="relative overflow-hidden">
 
-        {/* Pattern overlay */}
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
-          }} />
-        </div>
+  {/* Background avec gradient animé */}
+  <div className="absolute inset-0 bg-gradient-to-br from-green-600 via-emerald-600 to-teal-600">
+    <div className="absolute inset-0 opacity-20">
+      <div className="absolute top-20 -left-20 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse" />
+      <div
+        className="absolute bottom-20 -right-20 w-96 h-96 bg-white rounded-full blur-3xl animate-pulse"
+        style={{ animationDelay: "1s" }}
+      />
+    </div>
+  </div>
 
-        <div className="relative container mx-auto px-6 py-20 md:py-32">
-          <div className="max-w-5xl mx-auto">
-            
-            {/* Badge */}
-            <div className="flex justify-center mb-8">
-              <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
-                <Sparkles className="w-4 h-4 text-white" />
-                <span className="text-sm font-semibold text-white">À Propos du Projet</span>
-              </div>
+  {/* Image de fond correcte */}
+  <div className="absolute inset-0 opacity-20">
+    <div
+      className="absolute inset-0 bg-cover bg-center"
+      style={{
+        backgroundImage: `url("/images/heros/about.jpg")`,
+      }}
+    />
+  </div>
+
+  <div className="relative container mx-auto px-6 py-20 md:py-32">
+    <div className="max-w-5xl mx-auto">
+      
+      {/* Badge */}
+      <div className="flex justify-center mb-8">
+        <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20">
+          <Sparkles className="w-4 h-4 text-white" />
+          <span className="text-sm font-semibold text-white">À Propos du Projet</span>
+        </div>
+      </div>
+
+      {/* Main Title */}
+      <h1 className="text-center mb-6">
+        <span className="block text-5xl md:text-6xl font-black text-white leading-tight mb-4 drop-shadow-2xl">
+          Le Projet HISWACA
+        </span>
+        <span className="block text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-200 to-yellow-200 bg-clip-text text-transparent drop-shadow-lg">
+          Congo-Brazzaville
+        </span>
+      </h1>
+
+      <p className="text-xl md:text-2xl text-white/90 text-center max-w-4xl mx-auto leading-relaxed mb-12">
+        Harmonisation et Amélioration des Statistiques pour le Développement Durable
+      </p>
+
+      {/* Quick Stats */}
+      <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
+        {achievements.map((achievement, idx) => (
+          <div
+            key={idx}
+            className="text-center bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20"
+          >
+            <div className="text-3xl font-black text-white mb-1">
+              {achievement.value}
             </div>
-
-            {/* Main Title */}
-            <h1 className="text-center mb-6">
-              <span className="block text-5xl md:text-6xl font-black text-white leading-tight mb-4 drop-shadow-2xl">
-                Le Projet HISWACA
-              </span>
-              <span className="block text-3xl md:text-4xl font-bold bg-gradient-to-r from-amber-200 to-yellow-200 bg-clip-text text-transparent drop-shadow-lg">
-                Congo-Brazzaville
-              </span>
-            </h1>
-
-            <p className="text-xl md:text-2xl text-white/90 text-center max-w-4xl mx-auto leading-relaxed mb-12">
-              Harmonisation et Amélioration des Statistiques pour le Développement Durable
-            </p>
-
-            {/* Quick Stats */}
-            <div className="grid grid-cols-2 md:grid-cols-4 gap-6 max-w-4xl mx-auto">
-              {achievements.map((achievement, idx) => (
-                <div key={idx} className="text-center bg-white/10 backdrop-blur-md rounded-xl p-4 border border-white/20">
-                  <div className="text-3xl font-black text-white mb-1">{achievement.value}</div>
-                  <div className="text-sm text-white/80 font-semibold">{achievement.label}</div>
-                </div>
-              ))}
+            <div className="text-sm text-white/80 font-semibold">
+              {achievement.label}
             </div>
           </div>
-        </div>
+        ))}
+      </div>
 
-        {/* Wave separator */}
-        <div className="absolute bottom-0 left-0 right-0">
-          <svg viewBox="0 0 1440 120" fill="none" xmlns="http://www.w3.org/2000/svg" className="w-full">
-            <path d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z" fill="#f8fafc"/>
-          </svg>
-        </div>
-      </section>
+    </div>
+  </div>
+
+  {/* Wave separator */}
+  <div className="absolute bottom-0 left-0 right-0">
+    <svg
+      viewBox="0 0 1440 120"
+      fill="none"
+      xmlns="http://www.w3.org/2000/svg"
+      className="w-full"
+    >
+      <path
+        d="M0 120L60 105C120 90 240 60 360 45C480 30 600 30 720 37.5C840 45 960 60 1080 67.5C1200 75 1320 75 1380 75L1440 75V120H1380C1320 120 1200 120 1080 120C960 120 840 120 720 120C600 120 480 120 360 120C240 120 120 120 60 120H0Z"
+        fill="#f8fafc"
+      />
+    </svg>
+  </div>
+</section>
+
 
       {/* Mission Section */}
       <section className="container mx-auto px-6 py-20">
@@ -268,12 +299,17 @@ const AboutPage: React.FC = () => {
                 key={index}
                 className="group bg-white rounded-2xl p-6 shadow-lg hover:shadow-2xl transition-all duration-300 hover:-translate-y-2 border border-gray-100"
               >
-                {/* Logo Placeholder */}
-                <div className={`${partner.color} h-24 rounded-xl flex items-center justify-center mb-4 group-hover:scale-105 transition-transform`}>
-                  <span className="text-white font-bold text-sm text-center px-2">
-                    {partner.name}
-                  </span>
-                </div>
+              {/* Partner Image */}
+        <div className="relative w-full h-32 rounded-xl overflow-hidden shadow-md group-hover:scale-105 transition-all duration-300">
+          <Image
+            src={partner.image}
+            alt={partner.name}
+            fill
+            className="object-cover"
+            sizes="(max-width: 768px) 100vw, 50vw"
+          />
+        </div>
+
 
                 <h4 className="text-lg font-bold text-gray-900 mb-3 group-hover:text-green-600 transition-colors">
                   {partner.name}
@@ -298,6 +334,9 @@ const AboutPage: React.FC = () => {
           </div>
         </div>
       </section>
+
+  
+
 
     </div>
   );

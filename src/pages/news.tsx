@@ -137,28 +137,38 @@ const NewsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
-          }} />
-        </div>
+    {/* Hero Section */}
+<section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-16 overflow-hidden">
 
-        <div className="relative container mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
-            <Newspaper className="w-4 h-4" />
-            <span className="text-sm font-semibold">Actualités</span>
-          </div>
+  {/* Background Image */}
+  <div className="absolute inset-0">
+    <div
+      className="absolute inset-0 bg-center bg-cover opacity-20"
+      style={{
+        backgroundImage: `url("/images/heros/about.jpg")`
+      }}
+    />
+  </div>
 
-          <h1 className="text-4xl md:text-5xl font-black mb-4">
-            Actualités et Événements
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-            Suivez l activité et les étapes clés du Projet HISWACA-Congo
-          </p>
-        </div>
-      </section>
+  {/* Content */}
+  <div className="relative container mx-auto px-6 text-center">
+
+    <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
+      <Newspaper className="w-4 h-4" />
+      <span className="text-sm font-semibold">Actualités</span>
+    </div>
+
+    <h1 className="text-4xl md:text-5xl font-black mb-4">
+      Actualités et Événements
+    </h1>
+
+    <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
+      Suivez l’activité et les étapes clés du Projet HISWACA-Congo
+    </p>
+
+  </div>
+</section>
+
 
       {/* Stats Section */}
       <section className="container mx-auto px-6 -mt-12 relative z-10 mb-12">
@@ -219,7 +229,7 @@ const NewsPage: React.FC = () => {
               {/* Image */}
            <div className="relative h-64 lg:h-96 overflow-hidden group">
   <Image
-    src={"/images/news/news-1.jpg"}  // Ajoutez votre image ici
+    src={"/images/news/news-1.jpg"}  
     alt={""}
     fill
     className="object-cover group-hover:scale-110 transition-transform duration-700"

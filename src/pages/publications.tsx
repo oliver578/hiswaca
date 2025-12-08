@@ -170,28 +170,36 @@ const PublicationsPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
-          }} />
-        </div>
+     {/* Hero Section */}
+<section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-16 overflow-hidden">
+  
+  {/* Image de fond */}
+  <div className="absolute inset-0">
+    <div
+      className="absolute inset-0 bg-cover bg-center"
+      style={{
+        backgroundImage: `url("/images/heros/data.jpg")`,
+        opacity: 0.25, // tu peux ajuster ici
+      }}
+    />
+  </div>
 
-        <div className="relative container mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
-            <BookOpen className="w-4 h-4" />
-            <span className="text-sm font-semibold">Centre de Documentation</span>
-          </div>
+  <div className="relative container mx-auto px-6 text-center">
+    <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
+      <BookOpen className="w-4 h-4" />
+      <span className="text-sm font-semibold">Centre de Documentation</span>
+    </div>
 
-          <h1 className="text-4xl md:text-5xl font-black mb-4">
-            Publications & Ressources
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-            Accédez à tous les rapports officiels, notes techniques et documents du projet
-          </p>
-        </div>
-      </section>
+    <h1 className="text-4xl md:text-5xl font-black mb-4">
+      Publications & Ressources
+    </h1>
+
+    <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
+      Accédez à tous les rapports officiels, notes techniques et documents du projet
+    </p>
+  </div>
+</section>
+
 
       {/* Stats Section */}
       <section className="container mx-auto px-6 -mt-12 relative z-10 mb-12">
