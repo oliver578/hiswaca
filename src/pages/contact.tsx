@@ -82,8 +82,7 @@ const ContactPage: React.FC = () => {
         {/* Pattern Background */}
         <div className="absolute inset-0 opacity-10">
           <div className="absolute top-0 left-0 w-full h-full" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
-          }} />
+            backgroundImage: `url("/images/heros/data.jpg")`}} />
         </div>
 
         <div className="relative container mx-auto px-6 text-center">

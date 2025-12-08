@@ -20,6 +20,9 @@ import {
 import CounterUp from '@/components/CounterUp';
 import { LineChart, Line, XAxis, YAxis, Tooltip, CartesianGrid, BarChart, Bar, Legend, ResponsiveContainer } from 'recharts';
 
+import { MapContainer, TileLayer, Popup, Marker } from 'react-leaflet';
+import L from 'leaflet';
+
 
 // Données fictives pour les filtres
 const sectors = [
@@ -46,6 +49,7 @@ const dataTrend = [
 ];
 
 const dataComparison = [
+  { department: 'Brazzaville', value: 0.950 },
   { department: 'Bouenza', value: 0.700 },
   { department: 'Cuvette', value:0.450 },
   { department: 'Cuvette-Ouest', value:0.120 },
@@ -57,8 +61,7 @@ const dataComparison = [
   { department: 'Sangha', value: 0.110 },
   { department: 'Pool', value: 0.700 },
   { department: 'Niari', value:0.600 },
-  { department: 'Likouala', value: 0.280 },
-  { department: 'Brazzaville', value: 1.300 },
+  { department: 'Likouala', value: 0.280 }
 ];
 
 const years = [
@@ -93,10 +96,40 @@ const kpis = [
 
 // Données fictives pour les datasets populaires
 const popularDatasets = [
-  { name: 'Taux de scolarisation primaire', sector: 'Éducation', lastUpdate: '2024-11', downloads: 1234, color: 'bg-blue-100 text-blue-700' },
-  { name: 'Indicateurs santé maternelle', sector: 'Santé', lastUpdate: '2024-10', downloads: 892, color: 'bg-red-100 text-red-700' },
-  { name: 'Production agricole nationale', sector: 'Agriculture', lastUpdate: '2024-12', downloads: 756, color: 'bg-green-100 text-green-700' },
-  { name: 'PIB par secteur d activité', sector: 'Économie', lastUpdate: '2024-11', downloads: 1456, color: 'bg-amber-100 text-amber-700' },
+  { name: 'Taux de scolarisation primaire', sector: 'Éducation', lastUpdate: '2024-11', downloads: 1234, color: 'bg-blue-100 text-blue-700', file: '/datasets/data-1.csv' },
+  { name: 'Indicateurs santé maternelle', sector: 'Santé', lastUpdate: '2024-10', downloads: 892, color: 'bg-red-100 text-red-700', file: '/datasets/data-2.csv' },
+  { name: 'Production agricole nationale', sector: 'Agriculture', lastUpdate: '2024-12', downloads: 756, color: 'bg-green-100 text-green-700',file: '/datasets/data-3.csv' },
+  { name: 'PIB par secteur d activité', sector: 'Économie', lastUpdate: '2024-11', downloads: 1456, color: 'bg-amber-100 text-amber-700', file: '/datasets/data-4.csv' },
+];
+const downloadFile = (filePath: string) => {
+  const link = document.createElement('a');
+  link.href = filePath;  // /datasets/population.csv
+  link.download = filePath.split('/').pop() || 'dataset';
+  document.body.appendChild(link);
+  link.click();
+  document.body.removeChild(link);
+};
+
+delete (L.Icon.Default.prototype as any)._getIconUrl;
+L.Icon.Default.mergeOptions({
+  iconRetinaUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon-2x.png',
+  iconUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-icon.png',
+  shadowUrl: 'https://unpkg.com/leaflet@1.9.4/dist/images/marker-shadow.png',
+});
+
+const congoDepartments = [
+  { name: 'Brazzaville', coords: [-4.263, 15.242], pop: 2000 },
+  { name: 'Pointe-Noire', coords: [-4.815, 11.858], pop: 1200 },
+  { name: 'Dolisie', coords: [-4.202, 12.692], pop: 120 },
+  { name: 'Ouesso', coords: [1.613, 16.050], pop: 80 },
+  { name: 'Nkayi', coords: [-4.183, 13.283], pop: 90 },
+  { name: 'Kinkala', coords: [-4.283, 15.283], pop: 70 },
+  { name: 'Madingou', coords: [-4.633, 14.933], pop: 60 },
+  { name: 'Owando', coords: [-0.483, 15.900], pop: 50 },
+  { name: 'Impfondo', coords: [1.633, 18.050], pop: 40 },
+  {name: 'Loubomo', coords: [-2.483, 12.683], pop: 110 },
+  { name: 'Gamboma', coords: [-2.683, 15.183], pop: 30 },
+
 ];
 
 const DataPage: React.FC = () => {
@@ -119,28 +152,31 @@ const DataPage: React.FC = () => {
   return (
     <div className="min-h-screen bg-gradient-to-br from-slate-50 via-white to-emerald-50">
       
-      {/* Hero Section */}
-      <section className="relative bg-gradient-to-r from-green-600 via-emerald-600 to-teal-600 text-white py-16 overflow-hidden">
-        <div className="absolute inset-0 opacity-10">
-          <div className="absolute inset-0" style={{
-            backgroundImage: `url("data:image/svg+xml,%3Csvg width='60' height='60' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h60v60H0z' fill='none'/%3E%3Cpath d='M30 0v60M0 30h60' stroke='white' stroke-width='1' opacity='0.3'/%3E%3C/svg%3E")`,
-          }} />
-        </div>
+    
+            {/* Hero Section */}
+<section
+  className="relative bg-cover bg-center bg-no-repeat text-white py-20 overflow-hidden"
+  style={{
+    backgroundImage: `url("/images/heros/data.jpg")`, // <-- mets ici ton image
+  }}
+>
+  {/* Optionnel : overlay sombre */}
+  <div className="absolute inset-0 bg-black/40" />
 
-        <div className="relative container mx-auto px-6 text-center">
-          <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
-            <Database className="w-4 h-4" />
-            <span className="text-sm font-semibold">Données Ouvertes</span>
-          </div>
+  <div className="relative container mx-auto px-6 text-center">
+    <div className="inline-flex items-center gap-2 px-4 py-2 bg-white/10 backdrop-blur-md rounded-full border border-white/20 mb-6">
+      <Database className="w-4 h-4" />
+      <span className="text-sm font-semibold">Données Ouvertes</span>
+    </div>
 
-          <h1 className="text-4xl md:text-5xl font-black mb-4">
-            Tableau de Bord National
-          </h1>
-          <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
-            Explorez les données clés du développement au Congo, harmonisées par HISWACA
-          </p>
-        </div>
-      </section>
+    <h1 className="text-4xl md:text-5xl font-black mb-4">
+      Tableau de Bord National
+    </h1>
+    <p className="text-xl md:text-2xl text-white/90 max-w-3xl mx-auto">
+      Explorez les données clés du développement au Congo, harmonisées par HISWACA
+    </p>
+  </div>
+</section>
 
       {/* KPIs Section */}
       <section className="container mx-auto px-6 py-20">
@@ -263,52 +299,7 @@ const DataPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Main Visualization */}
-      <section className="container mx-auto px-6 mb-12">
-        <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
-          <div className="bg-gradient-to-r from-gray-50 to-white p-6 border-b border-gray-200">
-            <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
-              <div>
-                <h2 className="text-2xl font-black text-gray-900 mb-2">
-                  Carte Interactive du Congo
-                </h2>
-                <p className="text-gray-600">
-                  Indicateur: Taux de scolarisation primaire - {selectedYear}
-                </p>
-              </div>
-              <div className="flex gap-2">
-                <button className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" title="Voir détails">
-                  <Eye className="w-5 h-5 text-gray-700" />
-                </button>
-                <button className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" title="Partager">
-                  <Share2 className="w-5 h-5 text-gray-700" />
-                </button>
-                <button className="p-2 bg-green-100 hover:bg-green-200 rounded-lg transition-colors" title="Télécharger">
-                  <Download className="w-5 h-5 text-green-700" />
-                </button>
-              </div>
-            </div>
-          </div>
 
-          <div className="p-8">
-            <div className="aspect-video bg-gradient-to-br from-green-50 via-emerald-50 to-teal-50 rounded-xl flex items-center justify-center border-2 border-dashed border-gray-300">
-              <div className="text-center">
-                <MapPin className="w-16 h-16 text-green-600 mx-auto mb-4" />
-                <p className="text-gray-700 font-bold text-xl mb-2">Carte Interactive du Congo</p>
-                <p className="text-gray-500 text-sm max-w-md">
-                  Visualisation des données par région avec indicateurs géospatiaux
-                </p>
-                <p className="text-xs text-gray-400 mt-4">
-                  Intégration: Leaflet, Mapbox ou D3.js
-                </p>
-              </div>
-            </div>
-            <p className="mt-4 text-sm text-gray-500 text-center">
-              Source: INS Congo, Projet HISWACA | Dernière mise à jour: Décembre 2024
-            </p>
-          </div>
-        </div>
-      </section>
 
       {/* Charts Section */}
       <section className="container mx-auto px-6 mb-12">
@@ -375,7 +366,9 @@ const DataPage: React.FC = () => {
         </div>
       </section>
 
-      {/* Popular Datasets */}
+   
+
+  {/* Popular Datasets */}
       <section className="container mx-auto px-6 pb-20">
         <div className="bg-white rounded-2xl shadow-xl p-8 border border-gray-100">
           <div className="flex items-center gap-3 mb-8">
@@ -386,34 +379,32 @@ const DataPage: React.FC = () => {
           </div>
 
           <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
-            {popularDatasets.map((dataset, idx) => (
-              <div
-                key={idx}
-                className="group p-6 border-2 border-gray-200 rounded-xl hover:border-green-500 hover:shadow-lg transition-all duration-300 cursor-pointer"
-              >
-                <div className="flex items-start justify-between mb-4">
-                  <div className="flex-1">
-                    <h4 className="font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
-                      {dataset.name}
-                    </h4>
-                    <span className={`inline-block px-3 py-1 ${dataset.color} text-xs font-bold rounded-full`}>
-                      {dataset.sector}
-                    </span>
-                  </div>
-                  <Download className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors" />
-                </div>
-                
-                <div className="flex items-center justify-between text-sm text-gray-600">
-                  <span className="flex items-center gap-1">
-                    <Calendar className="w-4 h-4" />
-                    {dataset.lastUpdate}
-                  </span>
-                  <span className="font-semibold text-green-600">
-                    {dataset.downloads.toLocaleString()} téléchargements
-                  </span>
-                </div>
-              </div>
-            ))}
+           {popularDatasets.map((dataset, idx) => (
+  <div key={idx} className="group p-6 border-2 border-gray-200 rounded-xl hover:border-green-500 hover:shadow-lg transition-all duration-300 cursor-pointer" onClick={() => downloadFile(dataset.file)}>
+    <div className="flex items-start justify-between mb-4">
+      <div className="flex-1">
+        <h4 className="font-bold text-gray-900 mb-2 group-hover:text-green-600 transition-colors">
+          {dataset.name}
+        </h4>
+        <span className={`inline-block px-3 py-1 ${dataset.sector} text-xs font-bold rounded-full`}>
+          {dataset.sector}
+        </span>
+      </div>
+      <Download className="w-5 h-5 text-gray-400 group-hover:text-green-600 transition-colors" />
+    </div>
+    
+    <div className="flex items-center justify-between text-sm text-gray-600">
+      <span className="flex items-center gap-1">
+        <Calendar className="w-4 h-4" />
+        {dataset.lastUpdate}
+      </span>
+      <span className="font-semibold text-green-600">
+        {dataset.downloads.toLocaleString()} translate:téléchargements
+      </span>
+    </div>
+  </div>
+))}
+
           </div>
 
           <div className="text-center mt-8">
@@ -424,6 +415,68 @@ const DataPage: React.FC = () => {
         </div>
       </section>
 
+            {/* Main Visualization */}
+    <section className="container mx-auto px-6 mb-12">
+      <div className="bg-white rounded-2xl shadow-xl overflow-hidden border border-gray-100">
+        <div className="bg-gradient-to-r from-gray-50 to-white p-6 border-b border-gray-200">
+          <div className="flex flex-col md:flex-row justify-between items-start md:items-center gap-4">
+            <div>
+              <h2 className="text-2xl font-black text-gray-900 mb-2">
+                Carte Interactive du Congo
+              </h2>
+              <p className="text-gray-600">
+                Indicateur: Taux de scolarisation primaire - {selectedYear}
+              </p>
+            </div>
+            <div className="flex gap-2">
+              <button className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" title="Voir détails]">
+                <Eye className="w-5 h-5 text-gray-700" />
+              </button>
+              <button className="p-2 bg-gray-100 hover:bg-gray-200 rounded-lg transition-colors" title="[translatePartager]">
+                <Share2 className="w-5 h-5 text-gray-700" />
+              </button>
+              <button className="p-2 bg-green-100 hover:bg-green-200 rounded-lg transition-colors" title="Télécharger]">
+                <Download className="w-5 h-5 text-green-700" />
+              </button>
+            </div>
+          </div>
+        </div>
+
+        <div className="p-8">
+          <MapContainer 
+            center={[-1.44, 15.55]} 
+            zoom={6} 
+            style={{ height: '400px', borderRadius: '12px' }}
+            className="rounded-xl shadow-lg"
+          >
+            <TileLayer
+              url="https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png"
+              attribution='&copy; <a href="https://www.openstreetmap.org/copyright">OpenStreetMap</a>'
+            />
+            
+            {congoDepartments.map((dept, idx) => (
+              <Marker key={idx} position={dept.coords as [number, number]}>
+                <Popup>
+                  <div className="min-w-64">
+                    <h4 className="font-bold text-lg mb-2">{dept.name}</h4>
+                    <p className="text-sm text-gray-700 mb-1">
+                      Population: <span className="font-bold">{dept.pop.toLocaleString()} hab</span>
+                    </p>
+                    <p className="text-sm text-blue-600">
+                      Scolarisation: <span className="font-bold">78.5%</span>
+                    </p>
+                  </div>
+                </Popup>
+              </Marker>
+            ))}
+          </MapContainer>
+
+          <p className="mt-4 text-sm text-gray-500 text-center">
+            Source: INS Congo, Projet HISWACA | Dernière mise à jour: Décembre 2024
+          </p>
+        </div>
+      </div>
+    </section>
     </div>
   );
 };
