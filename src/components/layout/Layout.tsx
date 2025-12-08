@@ -1,6 +1,7 @@
 import React, { ReactNode } from 'react';
 import Header from './Header';
 import Footer from './Footer';
+import ChatToggle from '../ChatToggle';
 
 // Définition des types pour les enfants (contenu de la page)
 interface LayoutProps {
@@ -18,7 +19,7 @@ const Layout: React.FC<LayoutProps> = ({ children }) => {
         </div>
       </main>
       <Footer />
-      
+      <ChatToggle />
     </div>
   );
 };
